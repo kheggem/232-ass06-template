@@ -50,7 +50,6 @@ void test_pop_on_empty_list(void)
 /// Verify popBackValue() gives 3, then popFrontValue() gives 1, then length() is 1.
 void test_pop_order(void)
 {
-    /*
     DoublyLinkedList list;
 
     list.pushBackValue(1);
@@ -60,14 +59,15 @@ void test_pop_order(void)
     std::optional<NodeValue> backValue = list.popBackValue();
     std::optional<NodeValue> frontValue = list.popFrontValue();
 
-    //have to convert to int
+    TEST_ASSERT_TRUE(backValue.has_value() && std::holds_alternative<int>(backValue.value()));
+    TEST_ASSERT_TRUE(frontValue.has_value() && std::holds_alternative<int>(frontValue.value()));
 
-    TEST_ASSERT_EQUAL(3, backValue);
-    TEST_ASSERT_EQUAL(1, frontValue);
+    TEST_ASSERT_EQUAL(3, std::get<int>(backValue.value()));
+    TEST_ASSERT_EQUAL(1, std::get<int>(frontValue.value()));
+
 
     int listLength = list.length();
     TEST_ASSERT_EQUAL(1, listLength);
-    */
 }
 
 /// Push one value, then call deleteValue with a value that is NOT in the list.
@@ -99,12 +99,13 @@ void test_delete_middle_keeps_links(void)
     list.deleteValue(2);
     
     std::optional<NodeValue> backValue1 = list.popBackValue();
-    std::optional<NodeValue> backValue2 = list.popFrontValue();
+    std::optional<NodeValue> backValue2 = list.popBackValue();
 
-    //have to convert to int
+    TEST_ASSERT_TRUE(backValue1.has_value() && std::holds_alternative<int>(backValue1.value()));
+    TEST_ASSERT_TRUE(backValue2.has_value() && std::holds_alternative<int>(backValue2.value()));
 
-    TEST_ASSERT_EQUAL(3, backValue1);
-    TEST_ASSERT_EQUAL(1, backValue2);
+    TEST_ASSERT_EQUAL(3, std::get<int>(backValue1.value()));
+    TEST_ASSERT_EQUAL(1, std::get<int>(backValue2.value()));
 }
 
 // ============================================================
@@ -115,7 +116,18 @@ void test_delete_middle_keeps_links(void)
 /// Verify length() is 2 and popFrontValue() gives 2 (only the FIRST 1 was removed).
 void test_std_delete_only_first(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    StdDoublyLinkedList newList;
+    newList.pushBackValue(1);
+    newList.pushBackValue(2);
+
+    newList.deleteValue(NodeValue{1});
+
+    std::optional<NodeValue> backValue = newList.popFrontValue();
+
+    TEST_ASSERT_TRUE(backValue.has_value() && std::holds_alternative<int>(backValue.value()));
+    TEST_ASSERT_EQUAL(2, std::get<int>(backValue.value()));
+
+    //need to implement length test
 }
 
 /// Create an EMPTY StdDoublyLinkedList.

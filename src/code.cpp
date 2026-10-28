@@ -294,14 +294,71 @@ bool DoublyLinkedList::containsValue(NodeValue value) const
 /// then a newline). Return the number of printed values.
 int DoublyLinkedList::printForward() const
 {
-    return 0;
+    int count = 0;
+
+    if (headPtr == nullptr) {
+        return count;
+    }
+
+    DoubleNode* tempPtr = headPtr;
+
+    while (tempPtr != nullptr) {
+
+        if (std::holds_alternative<int>(tempPtr->getValue()))
+        {
+            std::cout << std::get<int>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        else if (std::holds_alternative<double>(tempPtr->getValue())) 
+        {
+            std::cout << std::get<double>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        else if (std::holds_alternative<std::string>(tempPtr->getValue())) 
+        {
+            std::cout << std::get<std::string>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        tempPtr = tempPtr->getNext();
+        count++;
+    }
+
+    return count;
 }
 
 /// Print values tail -> head using prevPtr. Return the number of printed values.
 int DoublyLinkedList::printBackward() const
 {
-    // TODO: implement
-    return 0;
+    int count = 0;
+
+    if (tailPtr == nullptr) {
+        return count;
+    }
+
+    DoubleNode* tempPtr = tailPtr;
+
+    while (tempPtr != nullptr) {
+
+        if (std::holds_alternative<int>(tempPtr->getValue()))
+        {
+            std::cout << std::get<int>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        else if (std::holds_alternative<double>(tempPtr->getValue())) 
+        {
+            std::cout << std::get<double>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        else if (std::holds_alternative<std::string>(tempPtr->getValue())) 
+        {
+            std::cout << std::get<std::string>(tempPtr->getValue()) << " " << std::endl;
+        }
+
+        tempPtr = tempPtr->getPrev();
+        count++;
+    }
+
+    return count;
 }
 
 /// Return count.
@@ -317,44 +374,81 @@ int DoublyLinkedList::length() const
 // Only std::list methods, <algorithm>, iterators and std::visit.
 // A loop is allowed ONLY for printing.
 
+//I used https://en.cppreference.com/cpp/container/list to understand std::list methods
+
 /// Which std::list method inserts at the front?
 void StdDoublyLinkedList::pushFrontValue(NodeValue value)
 {
-    // TODO: implement
+    data.push_front(value);
 }
 
 /// Which std::list method inserts at the back?
 void StdDoublyLinkedList::pushBackValue(NodeValue value)
 {
-    // TODO: implement
+    data.push_back(value);
 }
 
 /// Read the front element, remove it, return it. Empty -> std::nullopt.
 std::optional<NodeValue> StdDoublyLinkedList::popFrontValue()
 {
-    // TODO: implement
-    return std::nullopt;
+    if (data.empty())
+    {
+        return std::nullopt;
+    }
+
+    std::optional<NodeValue> a = data.front();
+
+    data.pop_front();
+
+    return a;
 }
 
 /// Read the back element, remove it, return it. Empty -> std::nullopt.
 std::optional<NodeValue> StdDoublyLinkedList::popBackValue()
 {
-    // TODO: implement
-    return std::nullopt;
+    if (data.empty())
+    {
+        return std::nullopt;
+    }
+
+    std::optional<NodeValue> a = data.back();
+
+    data.pop_back();
+
+    return a;
 }
 
 /// Remove only the FIRST element equal to value. Return true if removed.
 bool StdDoublyLinkedList::deleteValue(NodeValue value)
 {
-    // TODO: implement
-    return false;
+    std::optional<NodeValue> a = std::find(data.front(), data.back(), value);
+
+    if (a == data.back())
+    {
+        return false;
+    }
+
+    else
+    {
+        data.remove(value);
+        return true;
+    }
 }
 
 /// Search without writing your own loop.
 bool StdDoublyLinkedList::containsValue(NodeValue value) const
 {
-    // TODO: implement
-    return false;
+    std::optional<NodeValue> a = std::find(data.front(), data.back(), value);
+
+    if (a == data.back())
+    {
+        return false;
+    }
+
+    else
+    {
+        return true;
+    }
 }
 
 /// Print head -> tail (same format as Part 2). Return the number of values.
@@ -374,7 +468,6 @@ int StdDoublyLinkedList::printBackward() const
 /// size() returns size_t, length() returns int.
 int StdDoublyLinkedList::length() const
 {
-    // TODO: implement
     return 0;
 }
 // ===== END PART 3 (do not remove this marker) =====

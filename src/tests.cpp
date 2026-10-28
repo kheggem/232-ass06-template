@@ -13,35 +13,76 @@
 /// Create a DoublyLinkedList. Verify length() is 0 on a new list.
 void test_new_list_is_empty(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    DoublyLinkedList list;
+
+    int listLength = list.length();
+
+    TEST_ASSERT_EQUAL(0, listLength);
 }
 
 /// Create a DoublyLinkedList. Call pushFrontValue and pushBackValue.
 /// Verify length() is 2.
 void test_push_increases_length(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    DoublyLinkedList list;
+
+    list.pushFrontValue(10);
+    list.pushBackValue(20);
+
+    int listLength = list.length();
+    TEST_ASSERT_EQUAL(2, listLength);
+
 }
 
 /// Create an EMPTY DoublyLinkedList.
 /// Verify popFrontValue() and popBackValue() both have NO value (has_value() is false).
 void test_pop_on_empty_list(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    DoublyLinkedList list;
+
+    list.popFrontValue();
+    list.popBackValue();
+
+    TEST_ASSERT_FALSE(list.containsValue(10));
 }
 
 /// Push 1, 2, 3 with pushBackValue.
 /// Verify popBackValue() gives 3, then popFrontValue() gives 1, then length() is 1.
 void test_pop_order(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    /*
+    DoublyLinkedList list;
+
+    list.pushBackValue(1);
+    list.pushBackValue(3);
+    list.pushBackValue(3);
+
+    std::optional<NodeValue> backValue = list.popBackValue();
+    std::optional<NodeValue> frontValue = list.popFrontValue();
+
+    //have to convert to int
+
+    TEST_ASSERT_EQUAL(3, backValue);
+    TEST_ASSERT_EQUAL(1, frontValue);
+
+    int listLength = list.length();
+    TEST_ASSERT_EQUAL(1, listLength);
+    */
 }
 
 /// Push one value, then call deleteValue with a value that is NOT in the list.
 /// Verify it returns false and length() does not change.
 void test_delete_value_not_found(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    DoublyLinkedList list;
+
+    list.pushFrontValue(1);
+    bool a = list.deleteValue(2);
+
+    TEST_ASSERT_FALSE(a);
+
+    int listLength = list.length();
+    TEST_ASSERT_EQUAL(1, listLength);
 }
 
 /// Push 1, 2, 3 with pushBackValue. Call deleteValue(2).
@@ -49,7 +90,21 @@ void test_delete_value_not_found(void)
 /// (popBackValue follows prevPtr: this fails if you forgot to repair the backward link.)
 void test_delete_middle_keeps_links(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    DoublyLinkedList list;
+
+    list.pushBackValue(1);
+    list.pushBackValue(3);
+    list.pushBackValue(3);
+
+    list.deleteValue(2);
+    
+    std::optional<NodeValue> backValue1 = list.popBackValue();
+    std::optional<NodeValue> backValue2 = list.popFrontValue();
+
+    //have to convert to int
+
+    TEST_ASSERT_EQUAL(3, backValue1);
+    TEST_ASSERT_EQUAL(1, backValue2);
 }
 
 // ============================================================

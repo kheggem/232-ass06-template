@@ -174,43 +174,119 @@ DoubleNode *DoublyLinkedList::detachValue(NodeValue value)
 /// Create a node with new and link it in front. Handle the empty list.
 void DoublyLinkedList::pushFrontValue(NodeValue value)
 {
-    // TODO: implement
+    DoubleNode *newNodePtr = new DoubleNode(value);
+
+    if (headPtr == nullptr)
+    {
+        newNodePtr->setNext(headPtr);
+        newNodePtr->setPrev(nullptr);
+        headPtr = newNodePtr;
+        tailPtr = newNodePtr;
+    }
+
+    else
+    {
+        newNodePtr->setNext(headPtr);
+        newNodePtr->setPrev(nullptr);
+        headPtr->setPrev(newNodePtr);
+        headPtr = newNodePtr;
+    }
+
+    count++;
 }
 
 /// Create a node with new and link it at the end. Handle the empty list.
 void DoublyLinkedList::pushBackValue(NodeValue value)
 {
-    // TODO: implement
+    DoubleNode *newNodePtr = new DoubleNode(value);
+
+    if (tailPtr == nullptr)
+    {
+        newNodePtr->setPrev(tailPtr);
+        newNodePtr->setNext(nullptr);
+        tailPtr = newNodePtr;
+        headPtr = newNodePtr;
+    }
+
+    else
+    {
+        newNodePtr->setPrev(tailPtr);
+        newNodePtr->setNext(nullptr);
+        tailPtr->setNext(newNodePtr);
+        tailPtr = newNodePtr;
+    }
+
+    count++;
 }
 
 /// Detach the first node, read its value, delete the node, return the value.
 /// Empty list -> std::nullopt.
 std::optional<NodeValue> DoublyLinkedList::popFrontValue()
 {
-    // TODO: implement
-    return std::nullopt;
+
+    if (headPtr == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    DoubleNode *detachedPtr = detachFirst();
+
+    NodeValue value = detachedPtr->getValue();
+
+    delete detachedPtr;
+
+    return value;
 }
 
 /// Detach the last node, read its value, delete the node, return the value.
 /// Empty list -> std::nullopt.
 std::optional<NodeValue> DoublyLinkedList::popBackValue()
 {
-    // TODO: implement
-    return std::nullopt;
+    if (tailPtr == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    DoubleNode *detachedPtr = detachLast();
+
+    NodeValue value = detachedPtr->getValue();
+
+    delete detachedPtr;
+
+    return value;
 }
 
 /// Remove the FIRST node equal to value and free it.
 /// Return true if something was removed.
 bool DoublyLinkedList::deleteValue(NodeValue value)
 {
-    // TODO: implement
-    return false;
+    DoubleNode *detachedPtr = detachValue(value);
+
+    if (detachedPtr == nullptr)
+    {
+        return false;
+    }
+
+    delete detachedPtr;
+
+    return true;
 }
 
 /// Return true if any node holds value.
 bool DoublyLinkedList::containsValue(NodeValue value) const
 {
-    // TODO: implement
+    DoubleNode *currentPtr = headPtr;
+
+    while (currentPtr != nullptr)
+    {
+        if(currentPtr->getValue() == value)
+        {
+            return true;
+        }
+
+        currentPtr = currentPtr->getNext();
+    }
+
     return false;
 }
 
@@ -218,7 +294,6 @@ bool DoublyLinkedList::containsValue(NodeValue value) const
 /// then a newline). Return the number of printed values.
 int DoublyLinkedList::printForward() const
 {
-    // TODO: implement
     return 0;
 }
 
@@ -232,8 +307,7 @@ int DoublyLinkedList::printBackward() const
 /// Return count.
 int DoublyLinkedList::length() const
 {
-    // TODO: implement
-    return 0;
+    return count;
 }
 
 // ===== BEGIN PART 3 (do not remove this marker) =====

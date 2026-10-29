@@ -93,7 +93,7 @@ void test_delete_middle_keeps_links(void)
     DoublyLinkedList list;
 
     list.pushBackValue(1);
-    list.pushBackValue(3);
+    list.pushBackValue(2);
     list.pushBackValue(3);
 
     list.deleteValue(2);
@@ -119,20 +119,28 @@ void test_std_delete_only_first(void)
     StdDoublyLinkedList newList;
     newList.pushBackValue(1);
     newList.pushBackValue(2);
+    newList.pushBackValue(1);
 
     newList.deleteValue(NodeValue{1});
 
-    std::optional<NodeValue> backValue = newList.popFrontValue();
+    int listLength = newList.length();
+    TEST_ASSERT_EQUAL(2, listLength);
 
-    TEST_ASSERT_TRUE(backValue.has_value() && std::holds_alternative<int>(backValue.value()));
-    TEST_ASSERT_EQUAL(2, std::get<int>(backValue.value()));
+    std::optional<NodeValue> frontValue = newList.popFrontValue();
 
-    //need to implement length test
+    TEST_ASSERT_TRUE(frontValue.has_value() && std::holds_alternative<int>(frontValue.value()));
+    TEST_ASSERT_EQUAL(2, std::get<int>(frontValue.value()));
 }
 
 /// Create an EMPTY StdDoublyLinkedList.
 /// Verify popFrontValue() and popBackValue() have NO value and do not crash.
 void test_std_pop_on_empty_list(void)
 {
-    TEST_ASSERT_TRUE_MESSAGE(0, "TODO: Implement this test");
+    StdDoublyLinkedList newList;
+
+    std::optional<NodeValue> frontValue = newList.popFrontValue();
+    std::optional<NodeValue> backValue = newList.popBackValue();
+
+    TEST_ASSERT_FALSE(frontValue.has_value() && std::holds_alternative<int>(frontValue.value()));
+    TEST_ASSERT_FALSE(backValue.has_value() && std::holds_alternative<int>(backValue.value()));
 }

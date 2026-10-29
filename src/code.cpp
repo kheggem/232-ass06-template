@@ -421,16 +421,16 @@ std::optional<NodeValue> StdDoublyLinkedList::popBackValue()
 /// Remove only the FIRST element equal to value. Return true if removed.
 bool StdDoublyLinkedList::deleteValue(NodeValue value)
 {
-    std::optional<NodeValue> a = std::find(data.front(), data.back(), value);
+    auto it = std::find(data.begin(), data.end(), value);
 
-    if (a == data.back())
+    if (it == data.end())
     {
         return false;
     }
 
     else
     {
-        data.remove(value);
+        data.erase(it);
         return true;
     }
 }
@@ -438,9 +438,9 @@ bool StdDoublyLinkedList::deleteValue(NodeValue value)
 /// Search without writing your own loop.
 bool StdDoublyLinkedList::containsValue(NodeValue value) const
 {
-    std::optional<NodeValue> a = std::find(data.front(), data.back(), value);
+    auto it = std::find(data.begin(), data.end(), value);
 
-    if (a == data.back())
+    if (it == data.end())
     {
         return false;
     }
@@ -454,20 +454,46 @@ bool StdDoublyLinkedList::containsValue(NodeValue value) const
 /// Print head -> tail (same format as Part 2). Return the number of values.
 int StdDoublyLinkedList::printForward() const
 {
-    // TODO: implement
-    return 0;
+    int count = 0;
+
+    for (auto it = data.cbegin(); it != data.cend(); it++)
+    {
+        std::visit([](const auto& value)
+        {
+            std::cout << value;
+
+        }, *it);
+
+        std::cout << " " << std::endl;
+        count++;
+    }
+
+    return count;
 }
 
 /// Print tail -> head (same format as Part 2). Return the number of values.
 int StdDoublyLinkedList::printBackward() const
 {
-    // TODO: implement
-    return 0;
+    int count = 0;
+
+    for (auto it = data.crbegin(); it != data.crend(); it++)
+    {
+        std::visit([](const auto& value)
+        {
+            std::cout << value;
+
+        }, *it);
+
+        std::cout << " " << std::endl;
+        count++;
+    }
+
+    return count;
 }
 
 /// size() returns size_t, length() returns int.
 int StdDoublyLinkedList::length() const
 {
-    return 0;
+    return data.size();
 }
 // ===== END PART 3 (do not remove this marker) =====

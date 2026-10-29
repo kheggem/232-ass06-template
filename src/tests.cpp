@@ -144,3 +144,4 @@ void test_std_pop_on_empty_list(void)
     TEST_ASSERT_FALSE(frontValue.has_value() && std::holds_alternative<int>(frontValue.value()));
     TEST_ASSERT_FALSE(backValue.has_value() && std::holds_alternative<int>(backValue.value()));
 }
+
